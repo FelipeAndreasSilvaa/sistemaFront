@@ -25,7 +25,7 @@ export function NavMain({
     title: string
     url: string
     icon?: LucideIcon
-    isActive?: boolean 
+    cartCount?: number // ✅ adiciona aqui
     items?: {
       title: string
       url: string
@@ -46,9 +46,19 @@ export function NavMain({
               <CollapsibleTrigger asChild>
                 <SidebarMenuButton asChild tooltip={item.title}>
                   <Link href={item.url} className="relative flex items-center gap-2">
-                          {item.icon && <item.icon className="h-4 w-4" />}
-                          <span>{item.title}</span>
-                    </Link>
+                    {item.icon && (
+                      <div className="relative">
+                        <item.icon className="h-4 w-4" />
+                        {/* ✅ Bolinha de quantidade */}
+                        {item.title === "Carrinho" && item.cartCount! > 0 && (
+                          <span className="absolute -top-2 -right-2 bg-red-500 text-white text-xs font-bold px-1 py-0.3 rounded-full">
+                            {item.cartCount! > 99 ? "99+" : item.cartCount}
+                          </span>
+                        )}
+                      </div>
+                    )}
+                    <span>{item.title}</span>
+                  </Link>
                 </SidebarMenuButton>
               </CollapsibleTrigger>
               <CollapsibleContent>

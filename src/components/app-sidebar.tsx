@@ -8,6 +8,7 @@ import {
   GalleryVerticalEnd,
   UserRound,
   Users,
+  Settings,
   ShoppingCart,
   Plus,
   HomeIcon,
@@ -23,6 +24,7 @@ import {
   SidebarHeader,
   SidebarRail,
 } from "./ui/sidebar"
+
 
 const defaultNav = [
   {
@@ -56,18 +58,10 @@ const teams = [
   },
 ]
 
-type User = {
-  name: string;
-  email: string;
-  avatar: string;
-};
-
-
-
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
 
   const [isLoggedIn, setIsLoggedIn] = React.useState(false)
-  const [user, setUser] = React.useState<User | null>(null);
+  const [user, setUser] = React.useState(null)
 
   React.useEffect(() => {
     axios.get("http://localhost:3001/session", { withCredentials: true })
