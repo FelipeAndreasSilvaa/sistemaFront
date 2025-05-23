@@ -2,6 +2,8 @@
 import { useEffect, useState } from 'react'
 import axios from 'axios'
 import Link from 'next/link'
+import Image from 'next/image'
+
 
 
 type Produto = {
@@ -23,8 +25,8 @@ const Aparelhos = () => {
         );
         setProdutos(filtrados);
       })
-      .catch(err => console.log("Erro ao buscar produto"));
-  }, []);
+      .catch(err => console.error("Erro ao buscar produto:", err));
+    }, []);
   
 
   return (
@@ -41,10 +43,12 @@ const Aparelhos = () => {
             className="bg-black rounded-lg shadow-lg p-6 sm:p-8"
           >
             <div className="relative overflow-hidden h-64 sm:h-72 rounded-md">
-              <img
+              <Image
                 className="object-cover w-full h-full"
                 src={`http://localhost:3001${produto.imagem}`}
                 alt="Product"
+                fill
+                style={{ objectFit: "cover" }}
               />
               <div className="absolute inset-0 bg-black opacity-40"></div>
               <div className="absolute inset-0 flex items-center justify-center">
@@ -63,7 +67,7 @@ const Aparelhos = () => {
               <span className="text-white font-bold text-lg">
                 R$ {Number(produto.preco).toFixed(2)}
               </span>
-              <button onClick={() => addToCart(produto)} className="bg-gray-900 text-white py-2 px-4 rounded-full font-bold hover:bg-gray-800">
+              <button className="bg-gray-900 text-white py-2 px-4 rounded-full font-bold hover:bg-gray-800">
                 Add to Cart
               </button>
             </div>

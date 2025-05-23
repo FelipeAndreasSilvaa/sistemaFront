@@ -1,7 +1,13 @@
-import type { NextConfig } from "next";
-
-const nextConfig: NextConfig = {
-  /* config options here */
+/** @type {import('next').NextConfig} */
+const nextConfig = {
+  reactStrictMode: true,
+  images: {
+    domains: [
+      'localhost',            // Seu backend local
+      'res.cloudinary.com',   // domínio padrão do Cloudinary
+      // adicione aqui outros domínios se usar mais serviços externos
+    ],
+  },
 };
 
-export default nextConfig;
+module.exports = nextConfig;

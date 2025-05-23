@@ -5,8 +5,21 @@ import { SidebarInset, SidebarProvider, SidebarTrigger } from "../../components/
 import { AppSidebar } from "../../components/app-sidebar";
 import { Separator } from "@radix-ui/react-separator";
 import { CreditCard } from "lucide-react";
+import Image from "next/image";
 
+type ErrorFields = {
+  nome?: string;
+  numeroCartao?: string;
+  validade?: string;
+  cvv?: string;
+};
 
+type Produto = {
+  _id: string;
+  name: string;
+  preco: number;
+  imagem: string;
+};
 
 const Compra = () => {
   
@@ -15,9 +28,9 @@ const Compra = () => {
   const [validade, setValidade] = useState("");
   const [cvv, setCvv] = useState("");
 
-  const [produtos, setProdutos] = useState([]);
+  const [produtos, setProdutos] = useState<Produto[]>([]);
 
-  const [error, setError] = useState({});
+  const [error, setError] = useState<ErrorFields>({});
   const [message, setMessage] = useState("");
   const [messageType, setMessageType] = useState<"success" | "error" | null>(
     null
@@ -33,41 +46,40 @@ const Compra = () => {
     }
   }, []);
 
-  const handleSubmit = (e) => {
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    let errors = {};
-
+    const errors: ErrorFields = {};
+  
     if (!nome) errors.nome = "Preencha o nome do destinatário";
     if (!numeroCartao) errors.numeroCartao = "Preencha o número do cartão";
     if (!validade) errors.validade = "Preencha a validade";
     if (!cvv) errors.cvv = "Preencha o CVV";
-
+  
     if (!numeroCartao || numeroCartao.replace(/\s/g, "").length !== 16) {
       errors.numeroCartao = "Número do cartão inválido";
     }
-    
+  
     if (!/^(0[1-9]|1[0-2])\/\d{2}$/.test(validade)) {
       errors.validade = "Data inválida (formato MM/AA)";
     }
-
+  
     if (!/^\d{3,4}$/.test(cvv)) {
       errors.cvv = "CVV inválido";
     }
-    
+  
     if (Object.keys(errors).length > 0) {
       setError(errors);
       return;
     }
-
-      // Se passou na validação
-      setMessage("Pagamento realizado com sucesso!");
-      setMessageType("success");
-
-      setTimeout(() => {
-        router.push("/Obrigado");
-      }, 1500);
-
-  };
+  
+    setMessage("Pagamento realizado com sucesso!");
+    setMessageType("success");
+  
+    setTimeout(() => {
+      router.push("/Obrigado");
+    }, 1500);
+  } // ← aqui estava o ponto e vírgula incorreto
+  
 
   return (
     <SidebarProvider>
@@ -95,10 +107,12 @@ const Compra = () => {
               <div className="mb-6 w-full flex flex-col gap-4">
                 {produtos.map((produto) => (
                   <div key={produto._id} className="flex items-center gap-4">
-                    <img
-                    src={`http://localhost:3001${produto.imagem}`}
-                    alt={produto.name}
-                      className="w-20 h-20 object-contain rounded"
+                    <Image
+                      src={`http://localhost:3001${produto.imagem}`}
+                      alt={produto.name}
+                      width={80}
+                      height={80}
+                      className="object-contain rounded"
                     />
                     <div>
                       <h2 className="text-lg font-bold">{produto.name}</h2>
@@ -189,7 +203,7 @@ const Compra = () => {
                   placeholder="..."
                   value={cvv}
                   onChange={(e) => {
-                    let value = e.target.value.replace(/\D/g, "").slice(0, 4);
+                    const value = e.target.value.replace(/\D/g, "").slice(0, 4);
                     setCvv(value);
                     if (error.cvv) setError((prev) => ({ ...prev, cvv: "" }));
                   }}

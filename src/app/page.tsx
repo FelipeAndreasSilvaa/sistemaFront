@@ -15,7 +15,7 @@ import ListaGenerica from "./components/ListaGenerica";
 
 export default function Home() {
 
-  const { categorias, limparCategorias } = useCategoria();
+  const { categorias } = useCategoria();
 
   const renderCategoria = (categoria: string) => {
     switch (categoria) {
@@ -41,12 +41,7 @@ export default function Home() {
           <div className="flex items-center gap-2 px-4">
             <SidebarTrigger className="-ml-1" />
             <Separator orientation="vertical" className="mr-2 data-[orientation=vertical]:h-4" />
-            {/* <button
-              onClick={limparCategorias}
-              className="ml-4 px-3 py-1 rounded bg-red-600 text-white hover:bg-red-700 transition"
-            >
-              Limpar Categorias
-            </button> */}
+
           </div>
         </header>
         <div className="py-16">{categorias.map(renderCategoria)}</div>

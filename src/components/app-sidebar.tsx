@@ -8,7 +8,6 @@ import {
   GalleryVerticalEnd,
   UserRound,
   Users,
-  Settings,
   ShoppingCart,
   Plus,
   HomeIcon,
@@ -58,10 +57,17 @@ const teams = [
   },
 ]
 
+type User = {
+  name: string;
+  email: string;
+  avatar: string;
+};
+
+
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
 
   const [isLoggedIn, setIsLoggedIn] = React.useState(false)
-  const [user, setUser] = React.useState(null)
+  const [user, setUser] = React.useState<User | null>(null);
 
   React.useEffect(() => {
     axios.get("http://localhost:3001/session", { withCredentials: true })

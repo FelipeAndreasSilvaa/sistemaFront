@@ -25,7 +25,9 @@ export function NavMain({
     title: string
     url: string
     icon?: LucideIcon
-    cartCount?: number // ✅ adiciona aqui
+    cartCount?: number
+    isActive?: boolean;  
+
     items?: {
       title: string
       url: string

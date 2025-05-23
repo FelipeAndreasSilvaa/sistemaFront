@@ -1,8 +1,15 @@
 "use client"
-import React, { use, useState } from 'react';
-import { useRouter } from 'next/navigation';
+import React, { useState } from 'react';
 import axios from 'axios';
 import { useCategoria } from '../context/CategoriaContext';
+
+type FormErros = {
+  nomeProd?: string;
+  descricao?: string;
+  preco?: string;
+  categoria?: string;
+};
+
 
 const AddProduto = () => {
   const [nomeProd, setnomeProd] = useState('')
@@ -14,11 +21,11 @@ const AddProduto = () => {
   const [imagem, setImagem] = useState<File | null>(null);
 
 
-  const [error, setError] = useState({})
+  const [error, setError] = useState<FormErros>({});
   const [message, setMessage] = useState('')
   const [messageType, setMessageType] = useState<"success" | "error" | null>(null);
 
-  const handleCategoriaChange = (e) => {
+  const handleCategoriaChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const valor = e.target.value;
     const valorComPrimeiraMaiuscula = valor.charAt(0).toUpperCase() + valor.slice(1);
     setCategoria(valorComPrimeiraMaiuscula);
