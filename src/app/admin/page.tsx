@@ -11,7 +11,7 @@ const Admin = () => {
   const router = useRouter()
 
   useEffect(() => {
-    axios.get("https://sistemaback-h033.onrender.com/session", { withCredentials: true })
+    axios.get(`${process.env.NEXT_PUBLIC_API_URL}/session`, { withCredentials: true, })
       .then(res => {
         console.log("Resposta da sessão:", res.data) 
         if (res.data.loggedIn) {
