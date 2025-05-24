@@ -70,7 +70,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
   const [user, setUser] = React.useState<User | null>(null);
 
   React.useEffect(() => {
-    axios.get("http://localhost:3001/session", { withCredentials: true })
+    axios.get(`${process.env.NEXT_PUBLIC_API_URL}/session`, { withCredentials: true })
       .then(res => {
         if (res.data.loggedIn) {
           setIsLoggedIn(true)
