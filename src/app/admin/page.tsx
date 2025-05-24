@@ -11,7 +11,7 @@ const Admin = () => {
   const router = useRouter()
 
   useEffect(() => {
-    axios.get(`${process.env.NEXT_PUBLIC_API_URL}/session`, { withCredentials: true })
+    axios.get("https://sistemaback-h033.onrender.com/session", { withCredentials: true })
       .then(res => {
         console.log("Resposta da sessão:", res.data) 
         if (res.data.loggedIn) {
@@ -20,7 +20,7 @@ const Admin = () => {
           router.push("/login")
         }
       })
-      .catch(() => {
+      .catch(err => {
         setError("Erro ao verificar sessão")
         router.push("/login")
       })
@@ -28,7 +28,6 @@ const Admin = () => {
         setLoading(false)
       })
   }, [router])
-  
 
   if (loading) return <p>Carregando...</p>
   if (error) return <p>{error}</p>
