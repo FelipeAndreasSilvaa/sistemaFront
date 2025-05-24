@@ -65,7 +65,7 @@ const AddProduto = () => {
     }
   
     try {
-      await axios.post('http://localhost:3001/Add_Produto', data);
+      await axios.post('https://sistemaback-h033.onrender.com/Add_Produto', data);
       setMessage("Produto adicionado com sucesso!");
       setMessageType("success");
   

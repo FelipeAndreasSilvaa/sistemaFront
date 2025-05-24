@@ -22,7 +22,7 @@ const ListaGenerica = ({ categoria }: Props) => {
   useEffect(() => {
     const fetchProdutos = async () => {
       try {
-        const res = await axios.get("http://localhost:3001/Get_Produto");
+        const res = await axios.get("https://sistemaback-h033.onrender.com/Get_Produto");
         const filtrados = res.data.filter((produto: Produto) =>
           produto.categoria.toLowerCase() === categoria.toLowerCase()
         );

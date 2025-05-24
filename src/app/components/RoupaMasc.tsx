@@ -16,7 +16,7 @@ const RoupaMasc = () => {
   const [produtos, setProdutos] = useState<Produto[]>([])
   
   useEffect(() => {
-    axios.get('http://localhost:3001/Get_Produto')
+    axios.get('https://sistemaback-h033.onrender.com/Get_Produto')
       .then(res => {
         const filtrados = res.data.filter((produto: Produto) =>
           produto.categoria.toLowerCase() === 'roupas masculinas'

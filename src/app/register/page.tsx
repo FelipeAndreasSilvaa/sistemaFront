@@ -37,7 +37,7 @@ const Register = () => {
       return
     }
 
-    axios.post('http://localhost:3001/register', {name,email, password})
+    axios.post('https://sistemaback-h033.onrender.com/register', {name,email, password})
       .then(result => {
         console.log(result);
         setMessage("Usuario encontrado!")

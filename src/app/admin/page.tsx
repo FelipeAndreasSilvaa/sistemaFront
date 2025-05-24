@@ -9,7 +9,7 @@ const Admin = () => {
   const router = useRouter()
 
   useEffect(() => {
-    axios.get("http://localhost:3001/session", { withCredentials: true })
+    axios.get("https://sistemaback-h033.onrender.com/session", { withCredentials: true })
       .then(res => {
         if (res.data.loggedIn) {
           setName(res.data.user.name)

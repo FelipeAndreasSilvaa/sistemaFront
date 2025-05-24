@@ -25,7 +25,7 @@ const ProdutoDetalhe = () => {
     if (!id) return;
 
     axios
-      .get(`http://localhost:3001/Get_Produto/${id}`)
+      .get(`https://sistemaback-h033.onrender.com/Get_Produto/${id}`)
       .then((response) => {
         setProduto(response.data);
       })
