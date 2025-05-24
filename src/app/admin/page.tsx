@@ -6,18 +6,31 @@ import axios from "axios"
 
 const Admin = () => {
   const [name, setName] = useState("")
+  const [loading, setLoading] = useState(true)
+  const [error, setError] = useState("")
   const router = useRouter()
 
   useEffect(() => {
     axios.get("https://sistemaback-h033.onrender.com/session", { withCredentials: true })
       .then(res => {
+        console.log("Resposta da sessão:", res.data) // <-- Aqui para debug
         if (res.data.loggedIn) {
           setName(res.data.user.name)
         } else {
           router.push("/login")
         }
       })
+      .catch(err => {
+        setError("Erro ao verificar sessão")
+        router.push("/login")
+      })
+      .finally(() => {
+        setLoading(false)
+      })
   }, [router])
+
+  if (loading) return <p>Carregando...</p>
+  if (error) return <p>{error}</p>
 
   return (
     <div className="min-h-screen flex flex-col items-center justify-center bg-gray-100 p-4">
