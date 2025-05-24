@@ -47,7 +47,7 @@ export function NavUser({
 
   const handleLogout = async () => {
     try {
-      await axios.post('http://localhost:3001/logout', {}, { withCredentials: true })
+      axios.get(`${process.env.NEXT_PUBLIC_API_URL}/session`, { withCredentials: true })
       router.push('/login') // redireciona para a tela de login
     } catch (err) {
       console.error("Erro ao fazer logout", err)
