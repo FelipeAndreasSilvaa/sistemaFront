@@ -13,7 +13,7 @@ const Admin = () => {
   useEffect(() => {
     axios.get("https://sistemaback-h033.onrender.com/session", { withCredentials: true })
       .then(res => {
-        console.log("Resposta da sessão:", res.data) // <-- Aqui para debug
+        console.log("Resposta da sessão:", res.data) 
         if (res.data.loggedIn) {
           setName(res.data.user.name)
         } else {
