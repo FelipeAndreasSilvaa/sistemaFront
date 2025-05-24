@@ -9,46 +9,45 @@ type Errors = {
   password?: string;
 };
 
-
 const Login = () => {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
-
   const [error, setError] = useState<Errors>({})
   const [message, setMessage] = useState('')
-  const [messageType, setMessageType] = useState<"success" | "error" | null>(null);
-
+  const [messageType, setMessageType] = useState<"success" | "error" | null>(null)
 
   const router = useRouter()
 
-
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
-    const errors: Errors = {};
+    const errors: Errors = {}
 
-    if(!email) errors.email = "PREENCHA O CAMPO EMAIL"
-    if(!password) errors.password = "PREENCHA O CAMPO PASSWORD"
+    if (!email) errors.email = "PREENCHA O CAMPO EMAIL"
+    if (!password) errors.password = "PREENCHA O CAMPO PASSWORD"
 
-    if(Object.keys(errors).length > 0){
+    if (Object.keys(errors).length > 0) {
       setError(errors)
       return
     }
 
-    axios.post('https://sistemaback-h033.onrender.com/login', {email, password}, {withCredentials: true})
+    axios.post('https://sistemaback-h033.onrender.com/login', { email, password }, { withCredentials: true })
       .then(result => {
-        if(result.data.success){
+        if (result.data.success) {
           localStorage.setItem('userName', result.data.name)
-          setMessage("Usuario logado com sucesso!")
+          setMessage("Usuário logado com sucesso!")
           setMessageType("success")
-          setTimeout(() =>{
+          setTimeout(() => {
             router.push('/admin')
           }, 1000)
-        }else{
-          setMessage("Email e senha incorretas!")
+        } else {
+          setMessage("Email e/ou senha incorretos!")
           setMessageType("error")
         }
       })
-    
+      .catch(() => {
+        setMessage("Erro ao tentar logar. Tente novamente.")
+        setMessageType("error")
+      })
   }
 
   return (
@@ -62,9 +61,9 @@ const Login = () => {
               Lorem Ipsum is simply
             </h2>
             <p className="max-w-md opacity-90">
-              Lorem Ipsum has been the industry&rsquo;s standard dummy text ever since the 1500s.
+              Lorem Ipsum has been the industry&rsquo;s standard dummy text ever
+              since the 1500s.
             </p>
-
           </div>
         </div>
 
@@ -136,7 +135,7 @@ const Login = () => {
         <div className="w-full max-w-md bg-white rounded-3xl shadow-lg p-8">
           <div className="text-right mb-4">
             <span className="text-gray-500">No Account?</span>
-            <Link href={'/register'} className="text-blue-500 font-medium">
+            <Link href={"/register"} className="text-blue-500 font-medium">
               Sign up
             </Link>
           </div>
@@ -148,7 +147,7 @@ const Login = () => {
             <h1 className="text-4xl font-bold">Sign in</h1>
           </div>
 
-          <form action="" onSubmit={handleSubmit}>
+          <form onSubmit={handleSubmit}>
             <div className="space-y-6">
               <div className="space-y-2">
                 <label
@@ -161,12 +160,19 @@ const Login = () => {
                   id="email"
                   type="text"
                   placeholder="Username or email address"
-                  className="w-full h-12 px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                  className={`w-full h-12 px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent ${
+                    error.email ? "border-red-500" : "border-gray-300"
+                  }`}
                   value={email}
-                  onChange={(e)=> setEmail(e.target.value)}
-               />
-                {error.email && <p className="text-sm text-red-600">{error.email}</p>}
-
+                  onChange={(e) => {
+                    setEmail(e.target.value);
+                    setError((prev) => ({ ...prev, email: "" }));
+                    setMessage("");
+                  }}
+                />
+                {error.email && (
+                  <p className="text-sm text-red-600">{error.email}</p>
+                )}
               </div>
 
               <div className="space-y-2">
@@ -180,15 +186,23 @@ const Login = () => {
                   id="password"
                   type="password"
                   placeholder="Password"
-                  className="w-full h-12 px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                  className={`w-full h-12 px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent ${
+                    error.password ? "border-red-500" : "border-gray-300"
+                  }`}
                   value={password}
-                  onChange={(e)=> setPassword(e.target.value)}
+                  onChange={(e) => {
+                    setPassword(e.target.value);
+                    setError((prev) => ({ ...prev, password: "" }));
+                    setMessage("");
+                  }}
                 />
-                {error.password && <p className="text-sm text-red-600">{error.password}</p>}
+                {error.password && (
+                  <p className="text-sm text-red-600">{error.password}</p>
+                )}
 
                 <div className="text-right">
                   <a href="#" className="text-blue-500 text-sm">
-                    htmlForgot Password
+                    Forgot Password
                   </a>
                 </div>
               </div>
@@ -200,16 +214,16 @@ const Login = () => {
                 Sign in
               </button>
             </div>
+
             {message && (
               <p
                 className={`mt-4 text-sm font-medium ${
-                  messageType === 'success' ? 'text-green-600' : 'text-red-600'
+                  messageType === "success" ? "text-green-600" : "text-red-600"
                 }`}
               >
                 {message}
               </p>
             )}
-
           </form>
         </div>
       </div>
