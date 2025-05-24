@@ -11,23 +11,30 @@ const Admin = () => {
   const router = useRouter()
 
   useEffect(() => {
+    console.log("Verificando sessão...")
+
     axios.get(`${process.env.NEXT_PUBLIC_API_URL}/session`, { withCredentials: true })
-    .then(res => {
+      .then(res => {
+        console.log("Resposta da API /session:", res.data)
+
         if (res.data.loggedIn) {
           setName(res.data.user.name)
+          console.log("Usuário autenticado:", res.data.user.name)
         } else {
+          console.warn("Usuário não autenticado, redirecionando para /login")
           router.push("/login")
         }
       })
-      .catch(() => {
+      .catch((err) => {
+        console.error("Erro ao verificar sessão:", err)
         setError("Erro ao verificar sessão")
         router.push("/login")
       })
       .finally(() => {
+        console.log("Verificação de sessão finalizada")
         setLoading(false)
       })
   }, [router])
-
 
   if (loading) return <p>Carregando...</p>
   if (error) return <p>{error}</p>
